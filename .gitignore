@@ -1,0 +1,6 @@
+*.love
+*.zip
+*.sublime-project
+*.sublime-workspace
+*.md
+*admob.lua
