@@ -12,7 +12,7 @@ local items = {
 	"About",
 	"Follow",
 	"Rate",
-  "Support",
+	"Support",
 	"Exit"
 }
 local boxes = {}

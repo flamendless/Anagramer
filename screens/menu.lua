@@ -50,6 +50,7 @@ function menu:enter(previous)
 				)
 				if window_rate == 1 then
 					love.system.openURL(game.rate_link)
+					print(game.rate_link)
 					user.isRated = true
 					config.user(true)
 				end
