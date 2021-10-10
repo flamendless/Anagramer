@@ -20,6 +20,7 @@ function love.conf(t)
 	t.external = true
 	t.externalstorage = true
 	t.identity = "Anagramer"
+	t.resizable = false
 
 	if _debug or _test then
 		t.console = true
