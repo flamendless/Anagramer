@@ -116,14 +116,14 @@ function menu:new()
 	self.textbox.w = self.cardTitle.w
 	self.textbox.h = self.div2.y - self.div1.y
 
-	self.cursor.alpha = 255
+	self.cursor.alpha = 1
 	self.cursor.timer = timer()
 	self.cursor.timer:every(0.5, function()
-		local t = 0.5
-		if self.cursor.alpha >= 255 then
+		local t = 0.25
+		if self.cursor.alpha >= 1 then
 			flux.to(self.cursor,t,{alpha=0})
 		elseif self.cursor.alpha <= 0 then
-			flux.to(self.cursor,t,{alpha=255})
+			flux.to(self.cursor,t,{alpha=1})
 		end
 	end)
 
@@ -223,7 +223,7 @@ end
 
 function menu:draw()
 	love.graphics.setBackgroundColor(material.colors.background("light"))
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1, 1, 1, 1)
 	--outline
 	love.graphics.setColor(material.colors.background("dark"))
 	if self.cardOutline then
@@ -295,7 +295,7 @@ function menu:draw()
 	if game.drawer then
 		if game.drawer:getStatus() then
 			--blur
-			love.graphics.setColor(0,0,0,150)
+			love.graphics.setColor(0,0,0,150/255)
 			love.graphics.rectangle("fill",0,0,game.width,game.height)
 		end
 	end
@@ -315,7 +315,7 @@ function menu:mousepressed(x,y,b,istouch)
 		self.btnClose.ripple:start(mx,my,material.colors("teal"))
 		app.typed = ""
 		--algo:setup()
-		--self:cleanup()
+		self:cleanup()
 	end)
 	if cards then
 		for k,v in pairs(cards) do
@@ -454,7 +454,7 @@ function menu:cleanup()
 	self.cleanup_count = self.cleanup_count + 1
 	if count(cards) ~= 0 then
 		if self.isRaised then
-			flux.to(cards[1],1.25,{
+			flux.to(cards[1],0.25,{
 				alpha = 0
 			}):oncomplete(function()
 				app.typed = ""
@@ -490,7 +490,7 @@ function menu:cleanup()
 					if getLastIndex(cards).isDone then
 						self.txt1.str = self.txt1.str4
 						for k,v in pairs(cards) do
-							self.flux_cleanup = flux.to(v.color, 2, {
+							self.flux_cleanup = flux.to(v.color, 0.5, {
 									[4] = 0
 								}
 							):oncomplete(function()
@@ -521,7 +521,7 @@ function menu:action(mx,my)
 	self.canType = true
 	if not self.isTyping then
 		self.button.txtDraw = false
-		flux.to(self.button,1,{
+		flux.to(self.button,0.5,{
 			y = self.div2.y + _diff/2 * game.ps
 		}
 		):onupdate(function()
@@ -534,8 +534,8 @@ function menu:action(mx,my)
 			local bw = self.cardTitle.w/4
 			local dw = self.button.font:getWidth(self.button.txt) + bw
 			local dh = self.button.font:getHeight(self.button.txt) + _btnH
-			flux.to(self.button,1,{h=dh})
-			flux.to(self.button,1,{w=dw}):onupdate(function()
+			flux.to(self.button,0.5,{h=dh})
+			flux.to(self.button,0.5,{w=dw}):onupdate(function()
 				self.button.x = game.width/2 - self.button.w/2
 				self:buttonUpdate()
 			end):oncomplete(function()

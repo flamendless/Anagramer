@@ -3,7 +3,7 @@ local flash_card = class:extend()
 local vec = require("modules.hump.vector")
 
 local padding
-local timer = 3
+local timer = 0.5
 
 function flash_card:new(msg)
 	padding = 16 * game.ps
@@ -21,7 +21,7 @@ function flash_card:new(msg)
 	self.card.p = material.roundrect(
 		self.card.x, self.card.y,self.card.w,self.card.h,2,2
 	)
-	
+
 	flux.to(self.pos,timer,{
 			x = self.target.x,
 			y = self.target.y
@@ -35,7 +35,7 @@ function flash_card:new(msg)
 		)
 	end)
 	flux.to(self,timer,{
-			alpha = 255
+			alpha = 1
 		}
 	)
 end
@@ -45,12 +45,12 @@ function flash_card:update(dt)
 end
 
 function flash_card:draw()
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.setColor(self.color[1],self.color[2],self.color[3],self.alpha)
 	custom.rectangle.card(self.card, self.card.p)
 	love.graphics.setColor(0,0,0,self.alpha)
 	love.graphics.setFont(self.font)
-	love.graphics.print(self.msg, 
+	love.graphics.print(self.msg,
 		(self.card.x + self.size.x/2) - self.font:getWidth(self.msg)/2,
 		(self.card.y + self.size.y/2) - self.font:getHeight(self.msg)/2
 	)

@@ -211,7 +211,7 @@ end
 function result:draw()
 	love.graphics.push()
 	love.graphics.translate(self.translate_x,-self.translate_y)
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1, 1, 1, 1)
 	for _,result_card in pairs(self.pool) do
 		if result_card.draw then result_card:draw() end
 	end

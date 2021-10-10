@@ -20,7 +20,7 @@ roboto.files = { -- Path and name of each font
 -- All three fonts should be available
 for _,v in pairs(roboto.files) do
   local name, file = v.name, v.file
-  if not love.filesystem.isFile(file) then
+  if not love.filesystem.getInfo(file) then
     error("Material Love's '"..name.."' font is missing at path '"..file.."'", 1)
   end
 end

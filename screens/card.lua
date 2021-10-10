@@ -22,7 +22,7 @@ local list_colors = {
 }
 
 local padding
-local time = 3
+local time = 0.75
 
 function card:new(id, contents)
 	self.debug_x, self.debug_y = 0,0
@@ -42,10 +42,10 @@ function card:new(id, contents)
 	local g = state.current():getCard()
 	self.w = (g.w/3) - padding
 	self.h = ((game.height - g.h - g.y)/3) - padding
-	
+
 	self.maxPos = vec(g.x,g.y + g.h + padding)
 	self.maxSize = vec(g.w,g.h/2)
-	
+
 	if love.system.getOS() == "Android" then
 		if self.h > 100 then
 			self.font = material.roboto("display4")
@@ -59,6 +59,8 @@ function card:new(id, contents)
 	else
 		self.font = material.roboto("display3")
 	end
+
+	self.font_small = material.roboto("caption")
 
 	local row
 	if id >= 3 and id <= 5 then
@@ -127,7 +129,7 @@ function card:update(dt)
 end
 
 function card:draw()
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.setColor(self.color[1],self.color[2],self.color[3],self.color[4])
 	if self.isMouseHover then
 		love.graphics.setColor(material.colors.mono("black","disabled"))
@@ -137,11 +139,20 @@ function card:draw()
 	if self.isMouseHover then
 		love.graphics.setColor(material.colors.mono("white","disabled"))
 	end
+
+	local cy = (self.card.y + self.card.h/2) - self.font:getHeight(self.id) + 16
 	love.graphics.setFont(self.font)
 	love.graphics.print(self.id,
-		(self.card.x + self.card.w/2) - self.font:getWidth(self.id)/2,
-		(self.card.y + self.card.h/2) - self.font:getHeight(self.id)/2
+		(self.card.x + self.card.w/2) - self.font:getWidth(self.id)/2, cy
 	)
+
+	love.graphics.setFont(self.font_small)
+	local txt = "letters word"
+	love.graphics.print("letters word",
+		(self.card.x + self.card.w/2) - self.font_small:getWidth(txt)/2,
+		cy + self.font:getHeight(self.id) + 8
+	)
+
 	love.graphics.setColor(self.rippleColor)
 	self.card.ripple:draw()
 

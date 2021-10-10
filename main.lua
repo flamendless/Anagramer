@@ -30,30 +30,31 @@ if platform == "Android" then
 elseif platform == "Windows" or platform == "OS X" or platform == "Linux" then
 	game.rate_link = "http://flamendless.itch.io/anagramer-anagram-solver"
 end
-game.ps = love.window.getPixelScale()
+game.ps = love.window.getDPIScale()
 game.appbar = nil
 game.drawer = nil
 game.menu = nil
 game.clock = 0
 
-if love.system.getOS() == "Windows" then
+if love.system.getOS() == "Android" then
+	game.width = love.graphics.getWidth() * game.ps
+	game.height = love.graphics.getHeight() * game.ps
+	game.ratio = math.min((love.graphics.getHeight()/game.height),
+		(love.graphics.getWidth()/game.width))
+else
 	game.width = 480 * game.ps
 	game.height = 640 * game.ps
 	love.window.setMode(game.width,game.height)
 	love.window.setTitle(game.title)
 	local ww,wh = love.graphics.getDimensions()
 	game.ratio = math.min((wh/game.height),(ww/game.width))
-elseif love.system.getOS() == "Android" then
-	game.width = love.graphics.getWidth() * game.ps
-	game.height = love.graphics.getHeight() * game.ps
-	game.ratio = math.min((love.graphics.getHeight()/game.height),
-		(love.graphics.getWidth()/game.width))
 end
 
 require("screens")
 require("transitions")
 
 local startScreen = screens.loading()
+local menuScreen = screens.menu()
 --startScreen = screens.menu
 
 app = {}
@@ -94,14 +95,20 @@ function love.load()
 	FC:GDPR_init(function()
 		show_ads()
 	end)
-	FC:show()
+
+	if FC:getState() then
+		FC:show()
+	else
+		state.switch(menuScreen)
+	end
 end
 
 function love.update(dt)
 	local c = state.current().id
 	timer.update(dt)
 	flux.update(dt)
-	if FC:getState() then FC:update(dt)
+	if FC:getState() then
+		FC:update(dt)
 	else
 		if state.current().update then
 			if state.current().isReady then
@@ -137,7 +144,7 @@ function love.draw()
 	end
 	transitions.draw()
 	if _debug then
-		love.graphics.setColor(255,0,0,255)
+		love.graphics.setColor(1,0,0,1)
 		love.graphics.setFont(font)
 		love.graphics.print("DEBUG MODE", game.width - font:getWidth("DEBUG MODE") - 4, game.height - font:getHeight("DEBUG MODE"))
 		love.graphics.setLineWidth(1)
@@ -146,7 +153,9 @@ function love.draw()
 		love.graphics.rectangle("line",0,0,game.width,game.height)
 	end
 	love.graphics.pop()
-	if FC:getState() then FC:draw() end
+	if FC:getState() then
+		FC:draw()
+	end
 end
 
 function love.quit()

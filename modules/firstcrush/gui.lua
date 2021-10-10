@@ -15,15 +15,9 @@ local thread = [[
 	end
 ]]
 
-local version = 1
-local dpi = 1
-if love._version == "11.1" then
-	version = 255
-	dpi = love.window.getDPIScale()
-else
-	dpi = love.window.getPixelScale()
-end
-if love.system.getOS() == "Android" then
+local version = 255
+local dpi = love.window.getDPIScale()
+if love.system.getOS() == "Android" or _test then
 	dpi = dpi/1.5
 end
 local count = 1
@@ -54,7 +48,7 @@ end
 local SHOW_GDPR = true
 
 function fc:GDPR_check()
-	if love.filesystem.exists("gdrp") then
+	if love.filesystem.getInfo("gdrp") then
 		local _gdrp = love.filesystem.read("gdrp")
 		if _gdrp == "accept" then
 			SHOW_GDPR = false
@@ -63,7 +57,7 @@ function fc:GDPR_check()
 end
 
 function fc:validate()
-	if love.filesystem.exists("gdrp") then
+	if love.filesystem.getInfo("gdrp") then
 		local _g = love.filesystem.read("gdrp")
 		return _g
 	end
@@ -113,7 +107,6 @@ function fc:registerWindow(w)
 end
 
 function fc:registerButton(b, current)
-
 	self.buttons[button_count] = b
 
 	if button_count == 1 then
@@ -167,11 +160,11 @@ function fc:update(dt)
 		local mx, my = love.mouse.getPosition()
 		for k,btn in pairs(self.buttons) do
 			btn.isHover = false
-			if cursor == btn.index then
-				btn.isHover = true
-			end
 			if point_to_rect(mx,my, btn.x,btn.y,btn.w,btn.h) then
 				cursor = btn.index
+				btn.isHover = true
+			end
+			if btn.isHover and cursor == btn.index then
 				btn.isHover = true
 			end
 		end

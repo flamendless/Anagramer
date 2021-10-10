@@ -49,7 +49,7 @@ end
 
 
 transitions.draw = function()
-	love.graphics.setColor(0,0,0,255)
+	love.graphics.setColor(0,0,0,1)
 	love.graphics.rectangle("fill",
 		overlay.x,overlay.y,overlay.w,overlay.h)
 end

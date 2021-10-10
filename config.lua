@@ -26,7 +26,7 @@ end
 function conf.init()
 	print("Initializing")
 	--default
-	if love.filesystem.exists(file_user) then
+	if love.filesystem.getInfo(file_user) then
 		user = require(getFileName(file_user))
 	else
 		user.isLog = true
@@ -49,7 +49,7 @@ end
 
 function conf.log()
 	if user.isLog then
-		if not love.filesystem.exists(file_log) then
+		if not love.filesystem.getInfo(file_log) then
 			print("Creating log file")
 			local f = love.filesystem.newFile(file_log)
 			f:open("r")
@@ -57,7 +57,7 @@ function conf.log()
 				.. "\r\n" .. os.date()
 				.. "\r\nWIDTH: " .. tostring(love.graphics.getWidth())
 				.. "\r\nHEIGHT: " .. tostring(love.graphics.getHeight())
-				.. "\r\nPIXEL SCALE: " .. tostring(love.window.getPixelScale())
+				.. "\r\nPIXEL SCALE: " .. tostring(love.window.getDPIScale())
 			)
 			f:close()
 		else
@@ -71,7 +71,7 @@ end
 
 function conf.user(override)
 	if not override then
-		if not love.filesystem.exists(file_user) then
+		if not love.filesystem.getInfo(file_user) then
 			print("Creating user configuration file")
 			local f = love.filesystem.newFile(file_user)
 			local save = ser(user)
@@ -96,7 +96,7 @@ function conf.user(override)
 end
 
 function conf.save(file_name,str,isEnd)
-	if love.filesystem.exists(file_name) then
+	if love.filesystem.getInfo(file_name) then
 		if isEnd then
 			love.filesystem.append(file_name,ending)
 		else

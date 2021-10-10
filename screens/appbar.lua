@@ -134,7 +134,7 @@ function appbar:draw()
 	if game.drawer then
 		if game.drawer:getStatus() then
 			--blur
-			love.graphics.setColor(0,0,0,150)
+			love.graphics.setColor(0,0,0,150/255)
 			love.graphics.rectangle("fill",0,0,game.width,game.height)
 		end
 	end

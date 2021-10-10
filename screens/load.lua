@@ -59,7 +59,7 @@ end
 
 function loading:draw()
 	love.graphics.setBackgroundColor(material.colors.background("dark"))
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.setColor(material.colors.mono("white", "title"))
 	love.graphics.setFont(self.fontLoading)
 	custom.print.center(self.strLoading, self.fontLoading,0,self.spinnerRadius*2 + 32 * game.ps)

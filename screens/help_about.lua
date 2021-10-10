@@ -41,7 +41,7 @@ end
 
 function HelpAbout:draw()
 	love.graphics.setBackgroundColor(material.colors.background("light"))
-	love.graphics.setColor(255,255,255)
+	love.graphics.setColor(1, 1, 1)
 	love.graphics.setColor(material.colors.background("dark"))
 	custom.rectangle.card(self.cardOutline,self.cardOutline.p)
 	love.graphics.setColor(material.colors.background("light"))
