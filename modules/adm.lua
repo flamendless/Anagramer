@@ -15,13 +15,13 @@ function adm.hideBanner() if not love.ads then return nilg end
 end
 
 function adm.tryShowInterstitial(resultWhenNoSupport, onSuccess, onCloseAfterSuccess, onFail)
-	love.interstitialClosed = function() 
+	love.interstitialClosed = function()
 		if love.ads then love.ads.requestInterstitial(adm.interstitialId) end
 		if onCloseAfterSuccess then onCloseAfterSuccess() end
 	end
 	love.interstitialFailedToLoad = onFail
 	local result, noSupport
-	if love.ads then 
+	if love.ads then
 		result = love.ads.isInterstitialLoaded()
 		if result then
 			love.ads.showInterstitial()
@@ -51,7 +51,7 @@ function adm.tryShowRewardedAd(resultWhenNoSupport, onSuccess, onCloseAfterSucce
 	love.rewardedAdDidStop = onCloseAfterSuccess
 	love.rewardedAdFailedToLoad = onFail
 	local result, noSupport
-	if love.ads then 
+	if love.ads then
 		result = love.ads.isRewardedAdLoaded()
 		if result then
 			love.ads.showRewardedAd()
@@ -77,8 +77,8 @@ function adm.init(bannerId, bannerPos, interstitialId, hideBannerOnStartup) if n
 	adm.bannerPos = bannerPos or "bottom"
 	if adm.bannerId then
 		love.ads.createBanner(adm.bannerId, adm.bannerPos)
-		if not hideBannerOnStartup then 
-			adm.showBanner() 
+		if not hideBannerOnStartup then
+			adm.showBanner()
 			adm.bannerIsVisible = true
 		end
 	end
