@@ -9,8 +9,10 @@ state = require("modules.hump.gamestate")
 ser = require("modules.ser")
 inspect = require("modules.inspect.inspect")
 config = require("config")
-if love.system.getOS() == "Android" and not _isPro and _isAPK then
+
+if love.system.getOS() == "Android" then
 	ads = require("admob")
+	print("ADMOB LOADED")
 end
 
 print("START")
@@ -30,6 +32,7 @@ if platform == "Android" then
 elseif platform == "Windows" or platform == "OS X" or platform == "Linux" then
 	game.rate_link = "http://flamendless.itch.io/anagramer-anagram-solver"
 end
+
 game.ps = love.window.getDPIScale()
 game.appbar = nil
 game.drawer = nil
@@ -73,8 +76,8 @@ FC = require("modules.firstcrush.gui")
 
 function show_ads()
 	if FC:validate() == "accept" then
-		if love.system.getOS() == "Android" and not _isPro and _isAPK then
-			adm.init(ads.id.banner, "bottom", ads.id.inter, false)
+		if love.system.getOS() == "Android" then
+			adm.init(ads.ads.banner, "bottom", ads.ads.inter, false)
 			adm.showBanner()
 		end
 	end
@@ -143,15 +146,6 @@ function love.draw()
 		game.drawer:draw()
 	end
 	transitions.draw()
-	if _debug then
-		love.graphics.setColor(1,0,0,1)
-		love.graphics.setFont(font)
-		love.graphics.print("DEBUG MODE", game.width - font:getWidth("DEBUG MODE") - 4, game.height - font:getHeight("DEBUG MODE"))
-		love.graphics.setLineWidth(1)
-		--love.graphics.line(game.width/2,0,game.width/2,game.height)
-		love.graphics.setLineWidth(2)
-		love.graphics.rectangle("line",0,0,game.width,game.height)
-	end
 	love.graphics.pop()
 	if FC:getState() then
 		FC:draw()

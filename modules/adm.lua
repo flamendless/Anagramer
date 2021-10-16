@@ -1,13 +1,15 @@
 local adm = {}
 
-function adm.showBanner() if not love.ads then return nil end
+function adm.showBanner()
+	if not love.ads then return end
 	if not adm.bannerIsVisible then
 		love.ads.showBanner()
 		adm.bannerIsVisible = true
 	end
 end
 
-function adm.hideBanner() if not love.ads then return nilg end
+function adm.hideBanner()
+	if not love.ads then return end
 	if adm.bannerIsVisible then
 		love.ads.hideBanner()
 		adm.bannerIsVisible = false
@@ -71,7 +73,8 @@ function adm.tryShowRewardedAd(resultWhenNoSupport, onSuccess, onCloseAfterSucce
 	return result
 end
 
-function adm.init(bannerId, bannerPos, interstitialId, hideBannerOnStartup) if not love.ads then return nil end -- mobile support only
+function adm.init(bannerId, bannerPos, interstitialId, hideBannerOnStartup)
+	if not love.ads then return end -- mobile support only
 	adm.interstitialId = interstitialId
 	adm.bannerId = bannerId
 	adm.bannerPos = bannerPos or "bottom"

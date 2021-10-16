@@ -12,7 +12,7 @@ local icons = {
 	ABOUT = "information",
 	FOLLOW = "twitter",
 	RATE = "star",
-  SUPPORT = "help",
+	SUPPORT = "help",
 	EXIT = "exit-to-app",
 }
 
@@ -35,8 +35,8 @@ local func = {
 	RATE = function()
 		love.system.openURL(game.rate_link)
 	end,
-  SUPPORT = function()
-    if love.system.getOS() == "Android" and not _isPro and _isAPK then
+	SUPPORT = function()
+		if love.system.getOS() == "Android" then
 			adm.tryShowInterstitial()
 			--adm.requestRewardedAd(ads.id.reward)
 			--adm.tryShowRewardedAd()

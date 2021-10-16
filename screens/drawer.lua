@@ -2,7 +2,7 @@ local class = require("modules.classic.classic")
 local drawer = class:extend()
 local box = require("screens.box")
 
-local speed = 50
+local speed = 100
 local time = 0.5
 local _rad
 local lines
