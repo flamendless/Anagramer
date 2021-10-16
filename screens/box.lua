@@ -90,13 +90,8 @@ function box:new(id,str,x,y,w,h,appbar)
 	self.w = w
 	self.h = h
 	self.color = {material.colors.mono("black","text")}
-	if love.system.getOS() == "Android" then
-		self.font = material.roboto("display1")
-		self.ty = self.y + self.font:getHeight(self.str)/2
-	else
-		self.font = material.roboto("headline")
-		self.ty = self.y + self.font:getHeight(self.str)
-	end
+	self.font = material.roboto("headline")
+	self.ty = self.y + self.font:getHeight(self.str)
 	_rad = appbar.barHeader.h/3
 	self.fab = material.ripple.circle(
 		_rad + 16 * game.ps,

@@ -44,11 +44,7 @@ end
 function appbar:new(current)
 	self.icon = "menu"
 	self.strTitle = string.upper("anagramer")
-	if love.system.getOS() == "Android" then
-		self.fontTitle = material.roboto("display1")
-	else
-		self.fontTitle = material.roboto("title")
-	end
+	self.fontTitle = material.roboto("title")
 	_h = self.fontTitle:getHeight(self.strTitle) * 2
 
 	self.barHeader = {

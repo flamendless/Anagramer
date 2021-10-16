@@ -137,21 +137,11 @@ function menu:new()
 		colorButtonDisabled = {material.colors.mono("black","disabled")},
 		colorTextDisabled = {material.colors.mono("white","disabled")}
 	}
-	if love.system.getOS() == "Android" then
-		_btnH = self.cardTitle.h/8
-		_btnW = self.cardTitle.w/8
-		if _btnH > 100 then
-			self.button.font = material.roboto("display2")
-		elseif _btnH > 60 then
-			self.button.font = material.roboto("display1")
-		else
-			self.button.font = material.roboto("headline")
-		end
-	else
-		self.button.font = material.roboto("button")
-		_btnH = 32
-		_btnW = 64
-	end
+
+	self.button.font = material.roboto("button")
+	_btnH = 32
+	_btnW = 64
+
 	self.button.colorButtonDraw = self.button.colorButton
 	self.button.colorTextDraw = self.button.colorText
 	self.button.h = self.button.font:getHeight(self.button.txt) + _btnH
