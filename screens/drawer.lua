@@ -18,6 +18,7 @@ local items = {
 local boxes = {}
 
 function drawer:new(appbar)
+	boxes = {}
 	self.isShowing = false
 	self.isHiding = false
 	self.isShown = false
@@ -161,7 +162,7 @@ function drawer:keypressed(key)
 	end
 end
 
-function drawer:mousepressed(x,y,b)
+function drawer:mousepressed(x,y,b,istouch)
 	if b and self.isShown then
 		local mx,my = x/game.ratio,y/game.ratio
 		custom.collisions.circle(mx,my,self.fab.circle,function()
@@ -169,53 +170,57 @@ function drawer:mousepressed(x,y,b)
 		end)
 		if boxes then
 			for k,v in ipairs(boxes) do
-				local res = v:mousepressed(mx,my,b)
+				local res = v:mousepressed(mx,my,b,istouch)
+				-- local res = v:touchpressed(id,mx,my)
 				if res then break end
 			end
 		end
 	end
 end
 
-function drawer:mousereleased(x,y,b)
+function drawer:mousereleased(x,y,b,istouch)
 	local mx,my = x/game.ratio,y/game.ratio
 	if self.isShown then
 		self.fab:fade()
 		if boxes then
 			for k,v in ipairs(boxes) do
-				local res = v:mousereleased(mx,my,b)
+				local res = v:mousereleased(mx,my,b,istouch)
+				-- local res = v:touchreleased(id,mx,my)
 				if res then break end
 			end
 		end
 	end
 end
 
-function drawer:touchreleased(id,x,y)
-	local mx,my = x/game.ratio,y/game.ratio
-	if self.isShown then
-		self.fab:fade()
-		if boxes then
-			for k,v in ipairs(boxes) do
-				local res = v:touchreleased(id,mx,my)
-				if res then break end
-			end
-		end
-	end
-end
+-- function drawer:touchreleased(id,x,y)
+-- 	local mx,my = x/game.ratio,y/game.ratio
+-- 	if self.isShown then
+-- 		self.fab:fade()
+-- 		if boxes then
+-- 			for k,v in ipairs(boxes) do
+-- 				-- local res = v:touchreleased(id,mx,my)
+-- 				local res = v:mousereleased(mx, my, 1)
+-- 				if res then break end
+-- 			end
+-- 		end
+-- 	end
+-- end
 
-function drawer:touchpressed(id,x,y)
-	local mx,my = x/game.ratio,y/game.ratio
-	if self.isShown then
-		custom.collisions.circle(mx,my,self.fab.circle,function()
-			self:pressed(mx,my)
-		end)
-		if boxes then
-			for k,v in ipairs(boxes) do
-				local res = v:touchpressed(id,mx,my)
-				if res then break end
-			end
-		end
-	end
-end
+-- function drawer:touchpressed(id,x,y)
+-- 	local mx,my = x/game.ratio,y/game.ratio
+-- 	if self.isShown then
+-- 		custom.collisions.circle(mx,my,self.fab.circle,function()
+-- 			self:pressed(mx,my)
+-- 		end)
+-- 		if boxes then
+-- 			for k,v in ipairs(boxes) do
+-- 				-- local res = v:touchpressed(id,mx,my)
+-- 				local res = v:mousepressed(mx, my, 1)
+-- 				if res then break end
+-- 			end
+-- 		end
+-- 	end
+-- end
 
 function drawer:show()
 	if self.isHidden and not self.isShowing then

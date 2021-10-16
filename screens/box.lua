@@ -6,6 +6,20 @@ local sqr = function(n)
 	return n*n
 end
 
+local function show_ty_fn()
+	love.window.showMessageBox("Thank you for supporting the developer",
+		"Thank you for supporting the developer",
+		{ "Okay",escapebutton = 1 }
+	)
+end
+
+local function show_fail_fn()
+	love.window.showMessageBox("No ad is available for now. Try again later",
+		"No ad is available for now. Try again later",
+		{ "Okay",escapebutton = 1 }
+	)
+end
+
 local icons = {
 	HOME = "home",
 	HELP = "help",
@@ -38,27 +52,19 @@ local func = {
 
 	SUPPORT = function()
 		adm.requestRewardedAd(ads.ads.reward)
-		local c = love.window.showMessageBox("Suport the developer",
-			"Choose either interstitial or video ads",
+		adm.requestInterstitial(ads.ads.inter)
+		local c = love.window.showMessageBox("Suport the developer via interstitial or video ad",
+			"Suport the developer via interstitial or video ad",
 			{ "Interstitial","Video","Cancel",escapebutton = 3 }
 		)
-		local show_ty = false
 		if c == 1 then
-			show_ty = adm.tryShowInterstitial()
+			local show_ty = adm.tryShowInterstitial(nil, show_ty_fn, show_fail_fn)
+			print("interstitial: " .. tostring(show_ty))
 		elseif c == 2 then
-			show_ty = adm.tryShowRewardedAd()
-		end
-
-		if show_ty then
-			love.window.showMessageBox("Thank you",
-				"Thank you for supporting the developer",
-				{ "Okay",escapebutton = 1 }
-			)
-		else
-			love.window.showMessageBox("Info",
-				"No ad is available for now. Try again later",
-				{ "Okay",escapebutton = 1 }
-			)
+			local show_ty = adm.tryShowRewardedAd(nil, show_ty_fn, show_fail_fn)
+			print("rewarded: " .. tostring(show_ty))
+		elseif c == 3 then
+			return
 		end
 	end,
 
@@ -159,43 +165,32 @@ function box:pressed(mx,my)
 	end
 end
 
-function box:mousepressed(x,y,b)
+function box:mousepressed(x,y,b,istouch)
 	local mx,my = x,y
-	if b == 1 then
-		if self.can_press then
-			custom.collisions.box(mx,my,self.button,{0,6,0,6}, function()
-				self:pressed(mx,my)
-				self.can_press = false
-				return true
-			end)
-		else
-			self.can_press = true
-		end
-	end
-end
-
-function box:mousereleased(x,y,b)
-	self.fab:fade()
-	self.button.ripple:fade()
-end
-
-function box:touchpressed(id,x,y)
-	local mx,my = x,y
-end
-
-function box:touchreleased(id,x,y)
-	self.fab:fade()
-	self.button.ripple:fade()
-	local mx,my = x,y
-	if self.can_press then
-		custom.collisions.box(mx,my,self.button,{0,6,0,6}, function()
+	if b == 1 or istouch then
+		local res = custom.collisions.box(mx,my,self.button,{0,6,0,6}, function()
 			self:pressed(mx,my)
-			self.can_press = false
-			return true
 		end)
-	else
-		self.can_press = true
+		return res
 	end
 end
+
+function box:mousereleased(x,y,b,istouch)
+	self.fab:fade()
+	self.button.ripple:fade()
+end
+
+-- function box:touchpressed(id,x,y)
+-- 	local mx,my = x,y
+-- 	local res = custom.collisions.box(mx,my,self.button,{0,6,0,6}, function()
+-- 		self:pressed(mx,my)
+-- 	end)
+-- 	return res
+-- end
+--
+-- function box:touchreleased(id,x,y)
+-- 	self.fab:fade()
+-- 	self.button.ripple:fade()
+-- end
 
 return box

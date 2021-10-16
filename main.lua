@@ -73,7 +73,7 @@ local font
 adm = require("modules.adm")
 
 function show_ads()
-	adm.init(ads.ads.banner, "bottom", ads.ads.inter, false)
+	adm.init(ads.ads.banner, "bottom", ads.ads.inter, false, ads.ads.reward)
 	adm.showBanner()
 end
 
@@ -227,56 +227,56 @@ function love.mousereleased(x,y,b,istouch)
 	end
 end
 
-function love.touchpressed(id,x,y,dx,dy,t)
-	local c = state.current().id
-	--if screens_tbl[c] then
-		--for k,v in pairs(screens_tbl[c]) do
-			--if v.touchpressed then v:touchpressed(id,x,y,dx,dy,t) end
-		--end
-	--end
-	if game.appbar then
-		game.appbar:touchpressed(id,x,y,dx,dy,t)
-	end
-	if game.drawer then
-		game.drawer:touchpressed(id,x,y,dx,dy,t)
-		if not game.drawer:getStatus() then
-			if state.current().touchpressed then
-				state.current():touchpressed(id,x,y,dx,dy,p)
-			end
-		end
-	end
-end
+-- function love.touchpressed(id,x,y,dx,dy,t)
+-- 	local c = state.current().id
+-- 	--if screens_tbl[c] then
+-- 		--for k,v in pairs(screens_tbl[c]) do
+-- 			--if v.touchpressed then v:touchpressed(id,x,y,dx,dy,t) end
+-- 		--end
+-- 	--end
+-- 	if game.appbar then
+-- 		game.appbar:touchpressed(id,x,y,dx,dy,t)
+-- 	end
+-- 	if game.drawer then
+-- 		game.drawer:touchpressed(id,x,y,dx,dy,t)
+-- 		if not game.drawer:getStatus() then
+-- 			if state.current().touchpressed then
+-- 				state.current():touchpressed(id,x,y,dx,dy,p)
+-- 			end
+-- 		end
+-- 	end
+-- end
 
-function love.touchreleased(id,x,y,dx,dy,t)
-	local c = state.current().id
-	--if screens_tbl[c] then
-		--for k,v in pairs(screens_tbl[c]) do
-			--if v.touchreleased then v:touchreleased(id,x,y,dx,dy,t) end
-		--end
-	--end
-	if game.appbar then
-		game.appbar:touchreleased(id,x,y,dx,dy,t)
-	end
-	if game.drawer then
-		game.drawer:touchreleased(id,x,y,dx,dy,t)
-		if not game.drawer:getStatus() then
-			if state.current().touchreleased then
-				state.current():touchreleased(id,x,y,dx,dy,p)
-			end
-		end
-	end
-end
+-- function love.touchreleased(id,x,y,dx,dy,t)
+-- 	local c = state.current().id
+-- 	--if screens_tbl[c] then
+-- 		--for k,v in pairs(screens_tbl[c]) do
+-- 			--if v.touchreleased then v:touchreleased(id,x,y,dx,dy,t) end
+-- 		--end
+-- 	--end
+-- 	if game.appbar then
+-- 		game.appbar:touchreleased(id,x,y,dx,dy,t)
+-- 	end
+-- 	if game.drawer then
+-- 		game.drawer:touchreleased(id,x,y,dx,dy,t)
+-- 		if not game.drawer:getStatus() then
+-- 			if state.current().touchreleased then
+-- 				state.current():touchreleased(id,x,y,dx,dy,p)
+-- 			end
+-- 		end
+-- 	end
+-- end
 
-function love.touchmoved(id,x,y,dx,dy,p)
-	local c = state.current().id
-	if game.drawer then
-		if not game.drawer:getStatus() then
-			if state.current().touchmoved then
-				state.current():touchmoved(id,x,y,dx,dy,p)
-			end
-		end
-	end
-end
+-- function love.touchmoved(id,x,y,dx,dy,p)
+-- 	local c = state.current().id
+-- 	if game.drawer then
+-- 		if not game.drawer:getStatus() then
+-- 			if state.current().touchmoved then
+-- 				state.current():touchmoved(id,x,y,dx,dy,p)
+-- 			end
+-- 		end
+-- 	end
+-- end
 
 function love.threaderror(thread, errmsg)
 	config.save(config.getLog(),"THREAD ERROR:")

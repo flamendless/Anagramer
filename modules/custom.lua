@@ -19,14 +19,16 @@ function custom.collisions.box(x,y,b,t,f,e)
 	e = e or function () end
 
 	t = t or {}
-	if 	x > b.x - (t[1] or 0) and
+	if x > b.x - (t[1] or 0) and
 		y > b.y - (t[2] or 0) and
 		x < (b.x + b.w) + (t[3] or 0) and
 		y < (b.y + b.h) + (t[4] or 0) then
 
 		f(x,y,b,t)
+		return true
 	else
 		e(x,y,b,t)
+		return false
 	end
 end
 

@@ -15,15 +15,8 @@ local timetonext = 0
 function loading:new()
 	self.spinnerRadius = game.width/8
 	self.spinner = material.spinner.new(self.spinnerRadius,10 * game.ps,0.5)
-	if love.system.getOS() == "Android" then
-		--self.fontLoading = material.roboto("display1")
-		--self.fontFooter = material.roboto("display1")
-		self.fontLoading = material.roboto("title")
-		self.fontFooter = material.roboto("title")
-	else
-		self.fontLoading = material.roboto("title")
-		self.fontFooter = material.roboto("title")
-	end
+	self.fontLoading = material.roboto("title")
+	self.fontFooter = material.roboto("title")
 	self.strFooter = "by Brandon"
 end
 
@@ -41,6 +34,7 @@ function loading:enter(previous,...)
 	timerString:every(1.5, function()
 		self.strLoading = newStr()
 	end)
+
 	timerDone = timer()
 	timerDone:after(timetonext, function()
 		transitions.random(screens.menu)

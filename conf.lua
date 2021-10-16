@@ -1,7 +1,7 @@
 function love.conf(t)
 	game = {}
 	user = {}
-	_test = true
+	_test = false
 
 	t.window.width = 480
 	t.window.height = 640

@@ -1,5 +1,26 @@
 local adm = {}
 
+function adm.init(bannerId, bannerPos, interstitialId, hideBannerOnStartup, rewardedId)
+	if not love.ads then return end -- mobile support only
+	adm.bannerId = bannerId
+	adm.interstitialId = interstitialId
+	adm.bannerPos = bannerPos or "bottom"
+	adm.rewardedId = rewardedId
+	if adm.bannerId then
+		love.ads.createBanner(adm.bannerId, adm.bannerPos)
+		if not hideBannerOnStartup then
+			adm.showBanner()
+			adm.bannerIsVisible = true
+		end
+	end
+	if adm.interstitialId then
+		love.ads.requestInterstitial(adm.interstitialId)
+	end
+	if adm.rewardedId then
+		love.ads.requestRewardedAd(adm.rewardedId)
+	end
+end
+
 function adm.showBanner()
 	if not love.ads then return end
 	if not adm.bannerIsVisible then
@@ -16,78 +37,58 @@ function adm.hideBanner()
 	end
 end
 
-function adm.tryShowInterstitial(resultWhenNoSupport, onSuccess, onCloseAfterSuccess, onFail)
+function adm.tryShowInterstitial(onSuccess, onCloseAfterSuccess, onFail)
 	love.interstitialClosed = function()
 		if love.ads then love.ads.requestInterstitial(adm.interstitialId) end
 		if onCloseAfterSuccess then onCloseAfterSuccess() end
 	end
 	love.interstitialFailedToLoad = onFail
-	local result, noSupport
+	local result = false
 	if love.ads then
 		result = love.ads.isInterstitialLoaded()
 		if result then
 			love.ads.showInterstitial()
 		end
-	else
-		result = resultWhenNoSupport
-		noSupport = true
 	end
 	if result and onSuccess then
 		onSuccess()
 	elseif not result and onFail then
 		onFail()
 	end
-	if noSupport and result and onCloseAfterSuccess then
-		onCloseAfterSuccess()
-	end
 	return result
+end
+
+function adm.requestInterstitial(id)
+	if love.ads then
+		love.ads.requestInterstitial(id or adm.interstitialId)
+	end
 end
 
 function adm.requestRewardedAd(id)
 	if love.ads then
-		love.ads.requestRewardedAd(id)
+		love.ads.requestRewardedAd(id or adm.rewardedId)
 	end
 end
 
-function adm.tryShowRewardedAd(resultWhenNoSupport, onSuccess, onCloseAfterSuccess, onFail)
-	love.rewardedAdDidStop = onCloseAfterSuccess
+function adm.tryShowRewardedAd(onSuccess, onCloseAfterSuccess, onFail)
+	love.rewardedAdDidStop = function()
+		if love.ads then love.ads.requestRewardedAd(adm.rewardedId) end
+		if onCloseAfterSuccess then onCloseAfterSuccess() end
+	end
 	love.rewardedAdFailedToLoad = onFail
-	local result, noSupport
+	local result = false
 	if love.ads then
 		result = love.ads.isRewardedAdLoaded()
 		if result then
 			love.ads.showRewardedAd()
 		end
-	else
-		result = resultWhenNoSupport
-		noSupport = true
 	end
 	if result and onSuccess then
 		onSuccess()
 	elseif not result and onFail then
 		onFail()
 	end
-	if noSupport and result and onCloseAfterSuccess then
-		onCloseAfterSuccess()
-	end
 	return result
-end
-
-function adm.init(bannerId, bannerPos, interstitialId, hideBannerOnStartup)
-	if not love.ads then return end -- mobile support only
-	adm.interstitialId = interstitialId
-	adm.bannerId = bannerId
-	adm.bannerPos = bannerPos or "bottom"
-	if adm.bannerId then
-		love.ads.createBanner(adm.bannerId, adm.bannerPos)
-		if not hideBannerOnStartup then
-			adm.showBanner()
-			adm.bannerIsVisible = true
-		end
-	end
-	if adm.interstitialId then
-		love.ads.requestInterstitial(adm.interstitialId)
-	end
 end
 
 return adm
