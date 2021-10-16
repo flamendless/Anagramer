@@ -37,16 +37,28 @@ local func = {
 	end,
 
 	SUPPORT = function()
+		adm.requestRewardedAd(ads.ads.reward)
 		local c = love.window.showMessageBox("Suport the developer",
 			"Choose either interstitial or video ads",
-			{
-				"Interstitial","Video","Cancel",escapebutton = 3
-			}
+			{ "Interstitial","Video","Cancel",escapebutton = 3 }
 		)
+		local show_ty = false
 		if c == 1 then
-			adm.tryShowInterstitial()
+			show_ty = adm.tryShowInterstitial()
 		elseif c == 2 then
-			adm.tryShowRewardedAd()
+			show_ty = adm.tryShowRewardedAd()
+		end
+
+		if show_ty then
+			love.window.showMessageBox("Thank you",
+				"Thank you for supporting the developer",
+				{ "Okay",escapebutton = 1 }
+			)
+		else
+			love.window.showMessageBox("Info",
+				"No ad is available for now. Try again later",
+				{ "Okay",escapebutton = 1 }
+			)
 		end
 	end,
 
@@ -93,6 +105,7 @@ function box:new(id,str,x,y,w,h,appbar)
 		h = self.h
 	}
 	self:buttonUpdate()
+	self.can_press = true
 end
 
 function box:buttonUpdate()
@@ -149,9 +162,15 @@ end
 function box:mousepressed(x,y,b)
 	local mx,my = x,y
 	if b == 1 then
-		custom.collisions.box(mx,my,self.button,{0,6,0,6}, function()
-			self:pressed(mx,my)
-		end)
+		if self.can_press then
+			custom.collisions.box(mx,my,self.button,{0,6,0,6}, function()
+				self:pressed(mx,my)
+				self.can_press = false
+				return true
+			end)
+		else
+			self.can_press = true
+		end
 	end
 end
 
@@ -168,9 +187,15 @@ function box:touchreleased(id,x,y)
 	self.fab:fade()
 	self.button.ripple:fade()
 	local mx,my = x,y
-	custom.collisions.box(mx,my,self.button,{0,6,0,6}, function()
-		self:pressed(mx,my)
-	end)
+	if self.can_press then
+		custom.collisions.box(mx,my,self.button,{0,6,0,6}, function()
+			self:pressed(mx,my)
+			self.can_press = false
+			return true
+		end)
+	else
+		self.can_press = true
+	end
 end
 
 return box

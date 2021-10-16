@@ -17,9 +17,10 @@ local thread = [[
 
 local version = 255
 local dpi = love.window.getDPIScale()
-if love.system.getOS() == "Android" or _test then
-	dpi = dpi/1.5
+if love.system.getOS() == "Android" then
+	dpi = dpi * 0.5
 end
+
 local count = 1
 local button_count = 1
 local cursor = 0
@@ -82,7 +83,7 @@ end
 function fc:init(color)
 	math.randomseed(os.time())
 	self.text = "\tThe game wishes to display ads. Allowing ads will help the developer earn income. If you want to support the game, please accept.\n\n\t The ads to be displayed will not use any of your personal data. This is a consensus in compliance with the GDPR.\n\n\tYou can revoke the consent anytime by going to game settings"
-	self.font = love.graphics.newFont(22 * dpi)
+	self.font = love.graphics.newFont(16 * dpi)
 	self.padding = 16
 	self.isShow = false
 

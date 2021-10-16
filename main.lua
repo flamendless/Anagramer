@@ -9,9 +9,8 @@ state = require("modules.hump.gamestate")
 ser = require("modules.ser")
 inspect = require("modules.inspect.inspect")
 config = require("config")
-
+ads = require("admob")
 if love.system.getOS() == "Android" then
-	ads = require("admob")
 	print("ADMOB LOADED")
 end
 
@@ -73,15 +72,9 @@ end
 local font
 adm = require("modules.adm")
 
-FC = require("modules.firstcrush.gui")
-
 function show_ads()
-	if FC:validate() == "accept" then
-		if love.system.getOS() == "Android" then
-			adm.init(ads.ads.banner, "bottom", ads.ads.inter, false)
-			adm.showBanner()
-		end
-	end
+	adm.init(ads.ads.banner, "bottom", ads.ads.inter, false)
+	adm.showBanner()
 end
 
 function love.load()
@@ -95,36 +88,23 @@ function love.load()
 	)
 
 	state.switch(startScreen)
-	FC:init({0, 0.4, 0, 1})
-	FC:GDPR_init(function()
-		show_ads()
-	end)
-
-	if FC:getState() then
-		FC:show()
-	else
-		state.switch(menuScreen)
-	end
+	show_ads()
 end
 
 function love.update(dt)
 	local c = state.current().id
 	timer.update(dt)
 	flux.update(dt)
-	if FC:getState() then
-		FC:update(dt)
-	else
-		if state.current().update then
-			if state.current().isReady then
-				state.current():update(dt)
-			end
+	if state.current().update then
+		if state.current().isReady then
+			state.current():update(dt)
 		end
-		if game.appbar then
-			game.appbar:update(dt)
-		end
-		if game.drawer then
-			game.drawer:update(dt)
-		end
+	end
+	if game.appbar then
+		game.appbar:update(dt)
+	end
+	if game.drawer then
+		game.drawer:update(dt)
 	end
 end
 
@@ -148,9 +128,6 @@ function love.draw()
 	end
 	transitions.draw()
 	love.graphics.pop()
-	if FC:getState() then
-		FC:draw()
-	end
 end
 
 function love.quit()
@@ -228,9 +205,6 @@ function love.mousepressed(x,y,b,istouch)
 			end
 		end
 	end
-	if FC:getState() then
-		FC:mousepressed(x,y,b,istouch)
-	end
 end
 
 function love.mousereleased(x,y,b,istouch)
@@ -270,9 +244,6 @@ function love.touchpressed(id,x,y,dx,dy,t)
 				state.current():touchpressed(id,x,y,dx,dy,p)
 			end
 		end
-	end
-	if FC:getState() then
-		FC:touchpressed(id,x,y)
 	end
 end
 

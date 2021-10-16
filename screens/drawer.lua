@@ -45,17 +45,19 @@ function drawer:new(appbar)
 
 	--grids
 	lines = self.height/#items
-	for i = 1, lines do
-		local x = 0
-		local y = i * self.font:getHeight(items[0])*2
-		if i > 0 and i <= #items then
-			local b = box(i,string.upper(items[i]),
-				x,y,
-				self.width,
-				self.font:getHeight(items[i]) * 2,
-				appbar
-			)
-			table.insert(boxes,b)
+	if #boxes == 0 then
+		for i = 1, lines do
+			local x = 0
+			local y = i * self.font:getHeight(items[0])*2
+			if i > 0 and i <= #items then
+				local b = box(i,string.upper(items[i]),
+					x,y,
+					self.width,
+					self.font:getHeight(items[i]) * 2,
+					appbar
+				)
+				table.insert(boxes,b)
+			end
 		end
 	end
 end
@@ -87,7 +89,7 @@ end
 function drawer:update(dt)
 	if self.isShown then
 		if boxes then
-			for k,v in pairs(boxes) do
+			for k,v in ipairs(boxes) do
 				v:update(dt)
 			end
 		end
@@ -141,7 +143,7 @@ function drawer:draw()
 			0,y,
 			self.width,y)
 		if boxes then
-			for k,v in pairs(boxes) do
+			for k,v in ipairs(boxes) do
 				v:draw()
 			end
 		end
@@ -166,8 +168,9 @@ function drawer:mousepressed(x,y,b)
 			self:pressed(mx,my)
 		end)
 		if boxes then
-			for k,v in pairs(boxes) do
-				v:mousepressed(mx,my,b)
+			for k,v in ipairs(boxes) do
+				local res = v:mousepressed(mx,my,b)
+				if res then break end
 			end
 		end
 	end
@@ -178,8 +181,9 @@ function drawer:mousereleased(x,y,b)
 	if self.isShown then
 		self.fab:fade()
 		if boxes then
-			for k,v in pairs(boxes) do
-				v:mousereleased(mx,my,b)
+			for k,v in ipairs(boxes) do
+				local res = v:mousereleased(mx,my,b)
+				if res then break end
 			end
 		end
 	end
@@ -190,8 +194,9 @@ function drawer:touchreleased(id,x,y)
 	if self.isShown then
 		self.fab:fade()
 		if boxes then
-			for k,v in pairs(boxes) do
-				v:touchreleased(id,mx,my)
+			for k,v in ipairs(boxes) do
+				local res = v:touchreleased(id,mx,my)
+				if res then break end
 			end
 		end
 	end
@@ -204,8 +209,9 @@ function drawer:touchpressed(id,x,y)
 			self:pressed(mx,my)
 		end)
 		if boxes then
-			for k,v in pairs(boxes) do
-				v:touchpressed(id,mx,my)
+			for k,v in ipairs(boxes) do
+				local res = v:touchpressed(id,mx,my)
+				if res then break end
 			end
 		end
 	end
