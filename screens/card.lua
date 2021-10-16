@@ -46,20 +46,7 @@ function card:new(id, contents)
 	self.maxPos = vec(g.x,g.y + g.h + padding)
 	self.maxSize = vec(g.w,g.h/2)
 
-	if love.system.getOS() == "Android" then
-		if self.h > 100 then
-			self.font = material.roboto("display4")
-		elseif self.h > 60 then
-			self.font = material.roboto("display3")
-		elseif self.h > 30 then
-			self.font = material.roboto("display2")
-		else
-			self.font = material.roboto("display1")
-		end
-	else
-		self.font = material.roboto("display3")
-	end
-
+	self.font = material.roboto("display3")
 	self.font_small = material.roboto("caption")
 
 	local row
@@ -148,7 +135,7 @@ function card:draw()
 
 	love.graphics.setFont(self.font_small)
 	local txt = "letters word"
-	love.graphics.print("letters word",
+	love.graphics.print(txt,
 		(self.card.x + self.card.w/2) - self.font_small:getWidth(txt)/2,
 		cy + self.font:getHeight(self.id) + 8
 	)

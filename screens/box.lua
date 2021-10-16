@@ -30,39 +30,31 @@ local func = {
 		game.drawer:hide()
 	end,
 	FOLLOW = function()
-		love.system.openURL("http://twitter.com/flamendless")
+		love.system.openURL("http://twitter.com/flam8studio")
 	end,
 	RATE = function()
 		love.system.openURL(game.rate_link)
 	end,
+
 	SUPPORT = function()
-		if love.system.getOS() == "Android" then
+		local c = love.window.showMessageBox("Suport the developer",
+			"Choose either interstitial or video ads",
+			{
+				"Interstitial","Video","Cancel",escapebutton = 3
+			}
+		)
+		if c == 1 then
 			adm.tryShowInterstitial()
-			--adm.requestRewardedAd(ads.id.reward)
-			--adm.tryShowRewardedAd()
-			--print("initializing reward")
-			--print("or initializing interstitial")
-			--if _test then
-				--love.ads.requestRewardedAd(ads.test.reward)
-				--love.ads.requestInterstitial(ads.test.inter)
-			--else
-				--love.ads.requestRewardedAd(ads.id.reward)
-				--love.ads.requestInterstitial(ads.id.inter)
-			--end
-			--if love.ads.isRewardedAdLoaded() then
-				--print("show reward ad")
-				--love.ads.showRewardedAd()
-			--elseif love.ads.isInterstitialLoaded() then
-				--print("show interstitial ad")
-				--love.ads.showInterstitial()
-			--end
+		elseif c == 2 then
+			adm.tryShowRewardedAd()
 		end
-  end,
+	end,
+
 	EXIT = function()
 		local esc = love.window.showMessageBox("Confirm Exit",
 			"Are you sure you want to quit?",
 			{
-				"Yes","No",escapebutton = 0
+				"Yes","No",escapebutton = 2
 			}
 		)
 		if esc == 1 then
@@ -81,7 +73,6 @@ function box:new(id,str,x,y,w,h,appbar)
 	self.h = h
 	self.color = {material.colors.mono("black","text")}
 	if love.system.getOS() == "Android" then
-		--self.font = material.roboto("display3")
 		self.font = material.roboto("display1")
 		self.ty = self.y + self.font:getHeight(self.str)/2
 	else

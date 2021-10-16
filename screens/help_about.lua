@@ -4,7 +4,7 @@ local HelpAbout = class:extend()
 local str = {
 	help =
 	"Anagramer is an Anagram Solver app. Anagrams are words or phrases that are created by rearranging the letters of another word or phrase.\n\nExample is the word\n 'silent', one of its anagrams is 'listen'.",
-	about = "This tool is inspired by Wordscapes.\n\nCredits to:\nPositive07 for the material-love library,\nAuahDark for helping me alot,\nBartbes for helping me with the algorithm,\nMartin Fellis and bio1712 for the Android port of LOVE,\nand ofcourse, the Love2D community!\n\nThanks to the following testers:\nCristelle Dawn Francia,\nJead Vidallo,\nIan Plaus,\nLoise Astillero,\nEarl Saturay,\nCyril Elijah Aurino\n"
+	about = "This tool is inspired by Wordscapes.\n\nCredits to:\nPositive07 for the material-love library,\nAuahDark for helping me alot,\nBartbes for helping me with the algorithm,\nMartin Fellis and bio1712 for the Android port of LOVE,\nand ofcourse, the Love2D community!\n"
 }
 
 

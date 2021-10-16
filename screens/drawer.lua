@@ -41,13 +41,7 @@ function drawer:new(appbar)
 	)
 	self.fab.circle.ty = appbar.fabMenu.circle.y
 
-	--others
-	if love.system.getOS() == "Android" then
-		--self.font = material.roboto("display3")
-		self.font = material.roboto("display1")
-	else
-		self.font = material.roboto("display1")
-	end
+	self.font = material.roboto("display1")
 
 	--grids
 	lines = self.height/#items

@@ -34,6 +34,7 @@ elseif platform == "Windows" or platform == "OS X" or platform == "Linux" then
 end
 
 game.ps = love.window.getDPIScale()
+print("DPI: " .. game.ps)
 game.appbar = nil
 game.drawer = nil
 game.menu = nil
@@ -42,8 +43,8 @@ game.clock = 0
 if love.system.getOS() == "Android" then
 	game.width = love.graphics.getWidth() * game.ps
 	game.height = love.graphics.getHeight() * game.ps
-	game.ratio = math.min((love.graphics.getHeight()/game.height),
-		(love.graphics.getWidth()/game.width))
+	local ww,wh = love.graphics.getDimensions()
+	game.ratio = math.min((wh/game.height),(ww/game.width))
 else
 	game.width = 480 * game.ps
 	game.height = 640 * game.ps
