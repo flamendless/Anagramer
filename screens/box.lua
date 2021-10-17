@@ -136,16 +136,14 @@ function box:draw()
 
 	--fab
 	love.graphics.setColor(material.colors("teal","A700"))
-	material.fab(self.fab.circle.x,self.fab.circle.y,
-		_rad,3)
+	material.fab(self.fab.circle.x,self.fab.circle.y, _rad,3)
 	self.fab:draw()
-	love.graphics.push()
-	love.graphics.scale((game.ps/1.5),(game.ps/1.5))
+
 	material.icons.draw(self.icon,
-		self.fab.circle.x/(game.ps/1.5),
-		self.fab.circle.y/(game.ps/1.5)
+		self.fab.circle.x,
+		self.fab.circle.y
 	)
-	love.graphics.pop()
+
 	love.graphics.setColor(material.colors.mono("black","divider"))
 	love.graphics.rectangle("line",
 		self.x,self.y,self.w,self.h)

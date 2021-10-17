@@ -34,6 +34,7 @@ end
 
 game.ps = love.window.getDPIScale()
 print("DPI: " .. game.ps)
+game.ps = 2.5
 game.appbar = nil
 game.drawer = nil
 game.menu = nil
@@ -57,7 +58,6 @@ require("screens")
 require("transitions")
 
 local startScreen = screens.loading()
-local menuScreen = screens.menu()
 --startScreen = screens.menu
 
 app = {}
@@ -86,6 +86,11 @@ function love.load()
 		"leave","resume",
 		}
 	)
+
+	if love.ads then
+		print("asking for consent...")
+		love.ads.changeEUConsent()
+	end
 
 	state.switch(startScreen)
 	show_ads()

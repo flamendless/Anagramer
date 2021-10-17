@@ -130,12 +130,10 @@ function drawer:draw()
 			_rad, 3
 		)
 		self.fab:draw()
-		love.graphics.push()
-		love.graphics.scale((game.ps/1.5),(game.ps/1.5))
+
 		material.icons.draw(self.icon,
-			self.fab.circle.x/(game.ps/1.5),
-			self.fab.circle.y/(game.ps/1.5))
-		love.graphics.pop()
+			self.fab.circle.x,
+			self.fab.circle.y)
 
 		--grids
 		love.graphics.setColor(material.colors.mono("black","divider"))
