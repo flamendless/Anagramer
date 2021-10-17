@@ -5,3 +5,5 @@
 *admob.lua
 !README.md
 makelove-build
+assets/*
+!assets/logo_512.png

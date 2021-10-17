@@ -75,11 +75,7 @@ function menu:new()
 	}
 
 	self.txt1 = {}
-	if love.system.getOS() == "Android" then
-		self.txt1.font = material.roboto("display2")
-	else
-		self.txt1.font = material.roboto("headline")
-	end
+	self.txt1.font = material.roboto("headline")
 	self.txt1.str = string.upper("Type Below")
 	self.txt1.default = string.upper("Type Below")
 	self.txt1.str2 = string.upper("GENERATING. PLEASE WAIT")
@@ -95,11 +91,7 @@ function menu:new()
 
 	self.input = {}
 	self.input.str = ""
-	if love.system.getOS() == "Android" then
-		self.input.font = material.roboto("display1")
-	else
-		self.input.font = material.roboto("headline")
-	end
+	self.input.font = material.roboto("headline")
 	self.input.x = game.width/2
 
 	self.cursor = {}
