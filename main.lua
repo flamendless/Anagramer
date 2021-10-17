@@ -34,7 +34,6 @@ end
 
 game.ps = love.window.getDPIScale()
 print("DPI: " .. game.ps)
-game.ps = 2.5
 game.appbar = nil
 game.drawer = nil
 game.menu = nil

@@ -51,20 +51,24 @@ local func = {
 	end,
 
 	SUPPORT = function()
-		adm.requestRewardedAd(ads.ads.reward)
-		adm.requestInterstitial(ads.ads.inter)
-		local c = love.window.showMessageBox("Suport the developer via interstitial or video ad",
-			"Suport the developer via interstitial or video ad",
-			{ "Interstitial","Video","Cancel",escapebutton = 3 }
-		)
-		if c == 1 then
-			local show_ty = adm.tryShowInterstitial(nil, show_ty_fn, show_fail_fn)
-			print("interstitial: " .. tostring(show_ty))
-		elseif c == 2 then
-			local show_ty = adm.tryShowRewardedAd(nil, show_ty_fn, show_fail_fn)
-			print("rewarded: " .. tostring(show_ty))
-		elseif c == 3 then
-			return
+		if love.ads then
+			adm.requestRewardedAd(ads.ads.reward)
+			adm.requestInterstitial(ads.ads.inter)
+			local c = love.window.showMessageBox("Suport the developer via interstitial or video ad",
+				"Suport the developer via interstitial or video ad",
+				{ "Interstitial","Video","Cancel",escapebutton = 3 }
+			)
+			if c == 1 then
+				local show_ty = adm.tryShowInterstitial(nil, show_ty_fn, show_fail_fn)
+				print("interstitial: " .. tostring(show_ty))
+			elseif c == 2 then
+				local show_ty = adm.tryShowRewardedAd(nil, show_ty_fn, show_fail_fn)
+				print("rewarded: " .. tostring(show_ty))
+			elseif c == 3 then
+				return
+			end
+		else
+			love.system.openURL("https://www.paypal.com/donate/?hosted_button_id=PV56X98KWLQUG")
 		end
 	end,
 
