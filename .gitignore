@@ -2,6 +2,6 @@
 *.zip
 *.sublime-project
 *.sublime-workspace
-*.md
 *admob.lua
+!README.md
 makelove-build
