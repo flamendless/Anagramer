@@ -46,7 +46,7 @@ function card:new(id, contents)
 	self.maxPos = vec(g.x,g.y + g.h + padding)
 	self.maxSize = vec(g.w,g.h/2)
 
-	self.font = material.roboto("display3")
+	self.font = material.roboto("display1")
 	self.font_small = material.roboto("caption")
 
 	local row
