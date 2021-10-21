@@ -22,20 +22,6 @@ function menu:enter(previous)
 	if love.system.getOS() == "Android" and not _isPro and _isAPK then
 		ads_counter = ads_counter + 1
 		show_ads()
-		--love.ads.showBanner()
-		--show interstitial every other 3 times
-		--if ads_counter % 3 == 0 then
-			--if _test then
-				--love.ads.requestInterstitial(ads.test.inter)
-			--else
-				--love.ads.requestInterstitial(ads.id.inter)
-			--end
-			--print("Interstitial ready: " .. tostring(love.ads.isInterstitialLoaded()))
-			--if love.ads.isInterstitialLoaded() then
-				--love.ads.showInterstitial()
-				--print("Interstitial should have loaded ..")
-			--end
-		--end
 	end
 	appbar:reset()
 	--create rate popup

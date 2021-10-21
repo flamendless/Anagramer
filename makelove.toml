@@ -1,8 +1,13 @@
 name = "Anagramer"
-default_targets = ["win32", "win64", "appimage"]
+default_targets = ["win64"]
 build_directory = "makelove-build"
 
 love_files = [
     "::git-ls-tree::",
     "-*/.*",
+    "-./assets/*",
+    "./assets/logo_128.png",
+    "./modules/hump/*",
+    "./modules/lume/*",
+    "./modules/material-love/*",
 ]

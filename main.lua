@@ -9,10 +9,6 @@ state = require("modules.hump.gamestate")
 ser = require("modules.ser")
 inspect = require("modules.inspect.inspect")
 config = require("config")
-ads = require("admob")
-if love.system.getOS() == "Android" then
-	print("ADMOB LOADED")
-end
 
 print("START")
 love.handlers.print = print
@@ -71,7 +67,49 @@ end
 local font
 adm = require("modules.adm")
 
+if love.system.getOS() == "Android" then
+	love_admob = require("modules.love_admob")
+	ads = require("admob_keys")
+	print("ADMOB LOADED")
+end
+
+--custom love.run is needed when using extensions (i.e, admob)
+function love.run()
+	if love.load then love.load(love.arg.parseGameArguments(arg), arg) end
+	if love.timer then love.timer.step() end
+
+	local dt = 0
+
+	return function()
+		-- Process events.
+		if love.event then
+			love.event.pump()
+			for name, a,b,c,d,e,f in love.event.poll() do
+				if name == "quit" then
+					if not love.quit or not love.quit() then
+						return a or 0
+					end
+				end
+				love.handlers[name](a,b,c,d,e,f)
+			end
+		end
+		if love.timer then dt = love.timer.step() end
+		if love.update then love.update(dt) end -- will pass 0 if love.timer is disabled
+		if love.graphics and love.graphics.isActive() then
+			love.graphics.origin()
+			love.graphics.clear(love.graphics.getBackgroundColor())
+			if love.draw then love.draw() end
+			love.graphics.present()
+		end
+
+		if love_admob then love_admob.update(dt) end
+
+		if love.timer then love.timer.sleep(0.001) end
+	end
+end
+
 function show_ads()
+	if not love_admob then return end
 	adm.init(ads.ads.banner, "bottom", ads.ads.inter, false, ads.ads.reward)
 	adm.showBanner()
 end
@@ -86,9 +124,9 @@ function love.load()
 		}
 	)
 
-	if love.ads then
+	if love_admob then
 		print("asking for consent...")
-		love.ads.changeEUConsent()
+		love_admob.changeEUConsent()
 	end
 
 	state.switch(startScreen)

@@ -51,7 +51,7 @@ local func = {
 	end,
 
 	SUPPORT = function()
-		if love.ads then
+		if love_admob then
 			adm.requestRewardedAd(ads.ads.reward)
 			adm.requestInterstitial(ads.ads.inter)
 			local c = love.window.showMessageBox("Suport the developer via interstitial or video ad",
