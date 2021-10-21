@@ -2,7 +2,7 @@
 *.zip
 *.sublime-project
 *.sublime-workspace
-*admob.lua
+!modules/love_admob.lua
 !README.md
 makelove-build
 assets/*
